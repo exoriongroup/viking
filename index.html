@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE IRON SAGA | Identity Engine</title>
+    <title>THE IRON SAGA</title>
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
     <style>
@@ -14,218 +14,195 @@
         body {
             background-color: var(--stone-dark); color: var(--parchment);
             font-family: 'Almendra', serif; background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png');
-            margin: 0; padding: 10px; overflow-x: hidden;
+            margin: 0; padding: 10px;
         }
         .container { max-width: 600px; margin: 0 auto; }
         
-        /* HEADER & AVATAR */
         header { text-align: center; padding: 20px 0; border-bottom: 3px double var(--wood-trim); }
         .avatar-circle { 
-            width: 80px; height: 80px; margin: 0 auto; border: 3px solid var(--gold); 
-            border-radius: 50%; background: var(--wood-trim); display: flex; 
-            align-items: center; justify-content: center; font-size: 2rem;
-            box-shadow: 0 0 15px var(--gold);
+            width: 70px; height: 70px; margin: 0 auto; border: 2px solid var(--gold); 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            font-size: 1.8rem; background: var(--wood-trim); box-shadow: 0 0 10px var(--gold);
         }
-        h1 { font-family: 'MedievalSharp'; color: var(--gold); margin: 10px 0 5px; letter-spacing: 2px; }
-        .identity-subtitle { font-style: italic; color: var(--iron); font-size: 0.9rem; }
 
-        /* NAVIGATION */
-        nav { display: flex; justify-content: space-around; background: rgba(0,0,0,0.6); padding: 15px; border: 1px solid var(--wood-trim); margin: 20px 0; }
-        nav button { background: none; border: none; color: var(--parchment); font-family: 'MedievalSharp'; cursor: pointer; transition: 0.3s; }
+        /* BOSS UI */
+        .boss-raid { margin: 15px 0; text-align: center; border: 1px solid var(--blood-red); padding: 10px; background: rgba(20,0,0,0.4); }
+        .hp-container { height: 12px; background: #222; border: 1px solid var(--gold); margin-top: 8px; position: relative; }
+        .hp-fill { height: 100%; background: linear-gradient(to right, #600, #f00); transition: width 0.5s; }
+
+        nav { display: flex; justify-content: space-around; background: rgba(0,0,0,0.6); padding: 15px; border: 1px solid var(--wood-trim); margin: 15px 0; }
+        nav button { background: none; border: none; color: var(--parchment); font-family: 'MedievalSharp'; cursor: pointer; }
         nav button.active { color: var(--blood-red); text-shadow: 0 0 8px var(--blood-red); }
 
-        /* STATS & PROGRESS */
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .stat-card { background: rgba(20,20,20,0.8); border: 1px solid var(--wood-trim); padding: 12px; position: relative; }
-        .xp-bar { height: 6px; background: #222; margin-top: 8px; border-radius: 3px; overflow: hidden; }
-        .xp-fill { height: 100%; background: var(--gold); transition: width 0.8s ease-out; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .stat-card { background: rgba(30,30,30,0.8); border: 1px solid var(--wood-trim); padding: 10px; }
+        .xp-bar { height: 4px; background: #000; margin-top: 5px; }
+        .xp-fill { height: 100%; background: var(--gold); transition: width 0.6s; }
 
-        /* LISTS */
         .page { display: none; }
-        .page.active { display: block; animation: slideUp 0.4s ease-out; }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .page.active { display: block; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .quest-item { 
             display: flex; justify-content: space-between; align-items: center; 
-            padding: 15px; background: rgba(40,40,40,0.4); border-left: 4px solid var(--iron);
-            margin-bottom: 8px; transition: 0.3s;
+            padding: 12px; background: rgba(40,40,40,0.4); border-left: 4px solid var(--iron);
+            margin-bottom: 8px;
         }
         .quest-item.completed { border-left-color: var(--gold); background: rgba(27, 48, 34, 0.4); }
-        
-        .rune-checkbox { width: 30px; height: 30px; border: 2px solid var(--gold); cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: 'MedievalSharp'; }
-        .rune-checkbox.active { background: var(--gold); color: var(--stone-dark); }
+        .rune-btn { width: 32px; height: 32px; border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .rune-btn.active { background: var(--gold); color: #000; }
 
-        /* LOG */
-        .log-entry { font-size: 0.85rem; padding: 8px; border-bottom: 1px solid #222; color: #aaa; }
-        .log-entry b { color: var(--gold); }
-
-        /* INPUTS */
-        .add-form { margin-top: 20px; display: flex; gap: 5px; }
-        input, select { background: #000; border: 1px solid var(--wood-trim); color: var(--parchment); padding: 10px; font-family: 'Almendra'; flex-grow: 1; }
-        .btn-viking { background: var(--blood-red); border: 1px solid var(--gold); color: white; padding: 10px 20px; cursor: pointer; font-family: 'MedievalSharp'; }
+        .log-entry { font-size: 0.8rem; padding: 5px; border-bottom: 1px solid #222; color: #888; }
+        .action-btn { background: var(--blood-red); color: white; border: 1px solid var(--gold); padding: 8px; cursor: pointer; font-family: 'MedievalSharp'; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <div class="avatar-circle" id="avatar-icon">ᚦ</div>
-        <h1 id="display-name">Leighton</h1>
-        <div class="identity-subtitle" id="display-class">Seeker of Fate</div>
+        <div class="avatar-circle" id="avatar-icon">ᛟ</div>
+        <h1 id="user-name">Leighton</h1>
+        <div id="user-class" style="color: var(--gold); font-style: italic; font-size: 0.85rem;">Initiate</div>
     </header>
+
+    <div class="boss-raid">
+        <small style="letter-spacing: 2px;">WORLD BOSS: JÖRMUNGANDR</small>
+        <div class="hp-container"><div id="boss-hp" class="hp-fill" style="width: 100%;"></div></div>
+        <p id="boss-text" style="font-size: 0.7rem; margin-top: 5px;">HP: 1000 / 1000</p>
+    </div>
 
     <nav>
         <button onclick="showPage('longhouse')" id="nav-longhouse" class="active">LONGHOUSE</button>
-        <button onclick="showPage('quests')" id="nav-quests">DAILY RITES</button>
-        <button onclick="showPage('saga')" id="nav-saga">SAGA LOG</button>
+        <button onclick="showPage('quests')" id="nav-quests">RITES</button>
+        <button onclick="showPage('settings')" id="nav-settings">RUNES</button>
     </nav>
 
     <section id="longhouse" class="page active">
-        <div class="stat-grid" id="stat-container">
-            </div>
+        <div class="stat-grid" id="stat-container"></div>
+        <h3 style="margin-top:20px; color: var(--gold);">The Saga Log</h3>
+        <div id="saga-log" style="max-height: 150px; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 10px; border: 1px solid var(--wood-trim);"></div>
     </section>
 
     <section id="quests" class="page">
-        <div id="quest-container"></div>
-        <div class="add-form">
-            <input type="text" id="new-quest-name" placeholder="New Ritual...">
-            <select id="new-quest-stat">
-                <option value="STR">STR</option><option value="DEX">DEX</option><option value="CON">CON</option>
-                <option value="INT">INT</option><option value="WIS">WIS</option><option value="CHA">CHA</option>
+        <div id="quest-list"></div>
+        <div style="margin-top:15px; display: flex; gap: 5px;">
+            <input type="text" id="q-name" placeholder="New Ritual...">
+            <select id="q-stat">
+                <option value="STR">STR</option><option value="INT">INT</option><option value="CHA">CHA</option>
+                <option value="DEX">DEX</option><option value="CON">CON</option><option value="WIS">WIS</option>
             </select>
-            <button class="btn-viking" onclick="addQuest()">VOW</button>
+            <button class="action-btn" onclick="addQuest()">ADD</button>
         </div>
     </section>
 
-    <section id="saga" class="page">
-        <div id="history-log" style="max-height: 400px; overflow-y: auto; background: rgba(0,0,0,0.3); padding: 10px;">
-            </div>
+    <section id="settings" class="page">
+        <div class="stat-card">
+            <h3>Saga Backup</h3>
+            <p style="font-size:0.8rem;">Save your progress to a JSON file or restore a previous Saga.</p>
+            <button class="action-btn" onclick="exportData()">EXPORT JSON</button>
+            <input type="file" id="importFile" onchange="importData(event)" style="margin-top:10px; font-size:0.7rem;">
+        </div>
     </section>
 </div>
 
 <script>
-    // --- IDENTITY CONFIGURATION ---
-    const STAT_ARCHETYPES = {
-        STR: { title: "The Discipline", icon: "ᚦ", levels: ["Shieldbearer", "Huscarl", "The Iron Jarl"] },
-        DEX: { title: "The Craft", icon: "ᚱ", levels: ["Apprentice", "Artisan", "Grandmaster"] },
-        CON: { title: "The Endurance", icon: "ᚢ", levels: ["Survivor", "Stalwart", "The Unbroken"] },
-        INT: { title: "The Learning", icon: "ᚨ", levels: ["Scholar", "Sage", "High Runemaster"] },
-        WIS: { title: "The Clarity", icon: "ᛟ", levels: ["Watcher", "Seer", "The All-Seeing"] },
-        CHA: { title: "The Influence", icon: "ᚷ", levels: ["Speaker", "Skald", "The Voice of Kings"] }
+    const ARCHETYPES = {
+        STR: { label: "Discipline", rune: "ᚦ", titles: ["Shieldbearer", "The Iron Jarl"], class: "Warrior" },
+        INT: { label: "Learning", rune: "ᚨ", titles: ["Scholar", "High Runemaster"], class: "Runemaster" },
+        CHA: { label: "Influence", rune: "ᚷ", titles: ["Speaker", "Voice of Kings"], class: "Skald" },
+        DEX: { label: "Skill", rune: "ᚱ", titles: ["Artisan", "Grandmaster"], class: "Ranger" },
+        CON: { label: "Endurance", rune: "ᚢ", titles: ["Stalwart", "The Unbroken"], class: "Berserker" },
+        WIS: { label: "Clarity", rune: "ᛟ", titles: ["Watcher", "The All-Seeing"], class: "Seer" }
     };
 
-    // --- STATE MANAGEMENT ---
-    let saga = JSON.parse(localStorage.getItem('iron_saga_v3')) || {
-        profile: { name: "Leighton", class: "Seeker" },
-        stats: { STR: {xp: 0, lvl: 1}, DEX: {xp: 0, lvl: 1}, CON: {xp: 0, lvl: 1}, INT: {xp: 0, lvl: 1}, WIS: {xp: 0, lvl: 1}, CHA: {xp: 0, lvl: 1} },
-        quests: [],
-        history: {}, // { date: { questId: true } }
-        log: [{ date: new Date().toLocaleDateString(), text: "The Saga begins..." }]
+    let saga = JSON.parse(localStorage.getItem('iron_saga_v4')) || {
+        stats: { STR:{xp:0,lvl:1}, INT:{xp:0,lvl:1}, CHA:{xp:0,lvl:1}, DEX:{xp:0,lvl:1}, CON:{xp:0,lvl:1}, WIS:{xp:0,lvl:1} },
+        quests: [], history: {}, log: [], bossHP: 1000
     };
 
     function save() {
-        localStorage.setItem('iron_saga_v3', JSON.stringify(saga));
+        localStorage.setItem('iron_saga_v4', JSON.stringify(saga));
         render();
     }
 
-    // --- LOGIC: XP & LEVELING ---
-    function calculateXPNeeded(lvl) { return 100 * lvl; }
-
-    function addXP(stat, amount, context) {
-        let s = saga.stats[stat];
-        s.xp += amount;
-        
-        let needed = calculateXPNeeded(s.lvl);
-        if (s.xp >= needed) {
-            s.xp -= needed;
-            s.lvl++;
-            addLog(`Reached <b>${stat} Level ${s.lvl}</b>. Earned Title: <b>${getTitle(stat, s.lvl)}</b>.`);
-        }
-        updateClass();
-    }
-
-    function getTitle(stat, lvl) {
-        const titles = STAT_ARCHETYPES[stat].levels;
-        if (lvl < 5) return titles[0];
-        if (lvl < 15) return titles[1];
-        return titles[2];
-    }
-
-    function updateClass() {
-        let topStat = Object.entries(saga.stats).reduce((a, b) => a[1].lvl > b[1].lvl ? a : b)[0];
-        const classMap = { STR: "Warrior", INT: "Runemaster", WIS: "Seer", CHA: "Skald", DEX: "Ranger", CON: "Berserker" };
-        saga.profile.class = classMap[topStat];
-    }
-
-    function addLog(text) {
-        saga.log.unshift({ date: new Date().toLocaleDateString(), text });
-    }
-
-    // --- UI ACTIONS ---
     function addQuest() {
-        const name = document.getElementById('new-quest-name').value;
-        const stat = document.getElementById('new-quest-stat').value;
+        const name = document.getElementById('q-name').value;
+        const stat = document.getElementById('q-stat').value;
         if(!name) return;
         saga.quests.push({ id: Date.now(), name, stat });
-        document.getElementById('new-quest-name').value = '';
         save();
     }
 
     function toggleQuest(id, stat) {
         const today = new Date().toISOString().split('T')[0];
         if (!saga.history[today]) saga.history[today] = {};
-        
-        const isCompleting = !saga.history[today][id];
-        saga.history[today][id] = isCompleting;
+        const isComp = !saga.history[today][id];
+        saga.history[today][id] = isComp;
 
-        if (isCompleting) {
-            addXP(stat, 15, "Daily Rite");
-            addLog(`Honored the rite: <b>${saga.quests.find(q => q.id === id).name}</b> (+15 XP)`);
+        if (isComp) {
+            saga.bossHP = Math.max(0, saga.bossHP - 20);
+            awardXP(stat, 25);
+            saga.log.unshift(`[${new Date().toLocaleTimeString()}] Completed ${saga.quests.find(x=>x.id===id).name}. Boss takes 20 DMG.`);
+        } else {
+            saga.bossHP = Math.min(1000, saga.bossHP + 20);
         }
         save();
     }
 
-    // --- RENDERING ---
+    function awardXP(stat, amt) {
+        let s = saga.stats[stat];
+        s.xp += amt;
+        let next = 100 * s.lvl;
+        if (s.xp >= next) {
+            s.xp -= next;
+            s.lvl++;
+            saga.log.unshift(`*** LEVEL UP: ${stat} is now Level ${s.lvl}! ***`);
+        }
+    }
+
     function render() {
-        // Render Stats
-        document.getElementById('stat-container').innerHTML = Object.entries(saga.stats).map(([key, val]) => {
-            const progress = (val.xp / calculateXPNeeded(val.lvl)) * 100;
-            return `
-                <div class="stat-card">
-                    <div style="display:flex; justify-content:space-between">
-                        <small>${STAT_ARCHETYPES[key].title}</small>
-                        <b style="color:var(--gold)">LVL ${val.lvl}</b>
-                    </div>
-                    <div style="font-size:1.2rem; margin:5px 0">${key}</div>
-                    <div class="xp-bar"><div class="xp-fill" style="width:${progress}%"></div></div>
-                    <small style="font-size:0.7rem; color:var(--iron)">${getTitle(key, val.lvl)}</small>
-                </div>
-            `;
+        // Boss
+        document.getElementById('boss-hp').style.width = (saga.bossHP / 10) + '%';
+        document.getElementById('boss-text').innerText = `HP: ${saga.bossHP} / 1000`;
+
+        // Stats
+        document.getElementById('stat-container').innerHTML = Object.entries(saga.stats).map(([k, v]) => {
+            const perc = (v.xp / (100 * v.lvl)) * 100;
+            return `<div class="stat-card">
+                <div style="display:flex; justify-content:space-between; font-size:0.7rem;"><span>${ARCHETYPES[k].label}</span><b>LVL ${v.lvl}</b></div>
+                <div style="font-size:1.1rem; color:var(--gold);">${k}</div>
+                <div class="xp-bar"><div class="xp-fill" style="width:${perc}%"></div></div>
+            </div>`;
         }).join('');
 
-        // Render Quests
+        // Identity
+        let top = Object.entries(saga.stats).reduce((a, b) => a[1].lvl > b[1].lvl ? a : b)[0];
+        document.getElementById('user-class').innerText = `${ARCHETYPES[top].class} | ${ARCHETYPES[top].titles[saga.stats[top].lvl > 5 ? 1 : 0]}`;
+        document.getElementById('avatar-icon').innerText = ARCHETYPES[top].rune;
+
+        // Quests
         const today = new Date().toISOString().split('T')[0];
-        document.getElementById('quest-container').innerHTML = saga.quests.map(q => `
-            <div class="quest-item ${(saga.history[today] && saga.history[today][q.id]) ? 'completed' : ''}">
-                <div>
-                    <div>${q.name}</div>
-                    <small style="color:var(--iron)">Stat: ${q.stat}</small>
-                </div>
-                <div class="rune-checkbox ${(saga.history[today] && saga.history[today][q.id]) ? 'active' : ''}" 
-                     onclick="toggleQuest(${q.id}, '${q.stat}')">
-                    ${STAT_ARCHETYPES[q.stat].icon}
-                </div>
+        document.getElementById('quest-list').innerHTML = saga.quests.map(q => `
+            <div class="quest-item ${saga.history[today]?.[q.id] ? 'completed' : ''}">
+                <span>${q.name} <small>(${q.stat})</small></span>
+                <div class="rune-btn ${saga.history[today]?.[q.id] ? 'active' : ''}" onclick="toggleQuest(${q.id}, '${q.stat}')">${ARCHETYPES[q.stat].rune}</div>
             </div>
         `).join('');
 
-        // Render Log
-        document.getElementById('history-log').innerHTML = saga.log.map(l => `
-            <div class="log-entry">[${l.date}] ${l.text}</div>
-        `).join('');
+        // Log
+        document.getElementById('saga-log').innerHTML = saga.log.slice(0, 20).map(l => `<div class="log-entry">${l}</div>`).join('');
+    }
 
-        // Header Info
-        document.getElementById('display-class').innerText = `${saga.profile.class} | Level ${Object.values(saga.stats).reduce((a,b) => a + b.lvl, 0)} Total`;
-        document.getElementById('avatar-icon').innerText = STAT_ARCHETYPES[Object.entries(saga.stats).reduce((a, b) => a[1].lvl > b[1].lvl ? a : b)[0]].icon;
+    function exportData() {
+        const blob = new Blob([JSON.stringify(saga)], {type: "application/json"});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = "iron_saga_backup.json"; a.click();
+    }
+
+    function importData(e) {
+        const reader = new FileReader();
+        reader.onload = (ev) => { saga = JSON.parse(ev.target.result); save(); };
+        reader.readAsText(e.target.files[0]);
     }
 
     function showPage(id) {
