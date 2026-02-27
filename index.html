@@ -183,6 +183,34 @@
             border-left: 5px solid var(--iron);
             margin-bottom: 10px;
             border-radius: 2px;
+            position: relative;
+        }
+
+        /* --- Evolution Glow --- */
+        @keyframes masterGlow {
+            0% { box-shadow: 0 0 5px var(--gold); border-color: var(--gold); }
+            50% { box-shadow: 0 0 20px var(--gold); border-color: #fff; }
+            100% { box-shadow: 0 0 5px var(--gold); border-color: var(--gold); }
+        }
+
+        .quest-item.evolve-ready {
+            animation: masterGlow 2s infinite ease-in-out;
+            border-left-color: var(--gold);
+            background: rgba(197, 160, 89, 0.15);
+        }
+
+        .evolve-badge {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background: var(--gold);
+            color: #000;
+            font-family: 'MedievalSharp';
+            font-size: 0.6rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px #000;
+            z-index: 5;
         }
 
         .store-item, .inventory-item { flex-direction: column; align-items: stretch; border-left-color: var(--gold); }
@@ -364,6 +392,7 @@
         <button onclick="showPage('runes')" id="nav-runes">RUNES</button>
     </nav>
 
+    <!-- PAGE: LONGHOUSE -->
     <section id="longhouse" class="page active">
         <div class="stat-grid" id="stat-grid"></div>
         <div class="stat-card" style="margin-top:20px; text-align:center;">
@@ -372,6 +401,7 @@
         </div>
     </section>
 
+    <!-- PAGE: RITES -->
     <section id="rites" class="page">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
             <h3>Daily Rites</h3>
@@ -391,6 +421,7 @@
         </div>
     </section>
 
+    <!-- PAGE: RITUALS -->
     <section id="rituals" class="page">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
             <h3>Long-Standing Rituals</h3>
@@ -410,6 +441,7 @@
         </div>
     </section>
 
+    <!-- PAGE: KILL LIST -->
     <section id="killlist" class="page">
         <h3>The Kill List</h3>
         <div id="active-miniboss-list"></div>
@@ -438,6 +470,7 @@
         <div id="completed-kill-list" style="margin-top:20px;"></div>
     </section>
 
+    <!-- PAGE: MARKET -->
     <section id="store" class="page">
         <h3>The Artifact Merchant</h3>
         <div id="store-artifacts" style="margin-bottom:20px;"></div>
@@ -453,6 +486,7 @@
         </div>
     </section>
 
+    <!-- PAGE: INVENTORY -->
     <section id="inventory" class="page">
         <h3>Ancient Relics</h3>
         <div id="inv-artifacts" style="margin-bottom:20px;"></div>
@@ -460,11 +494,13 @@
         <div id="inv-spoils"></div>
     </section>
 
+    <!-- PAGE: SAGA -->
     <section id="saga" class="page">
         <h3>Chronicle of Deeds</h3>
         <div class="log-box" id="saga-log"></div>
     </section>
 
+    <!-- PAGE: RUNES -->
     <section id="runes" class="page">
         <!-- Identity Forge -->
         <div class="stat-card" style="margin-bottom:15px; border-color:var(--gold);">
@@ -593,7 +629,8 @@
 
     function getPreviousSunday() {
         const d = new Date();
-        const diff = d.getDate() - d.getDay();
+        const day = d.getDay();
+        const diff = d.getDate() - day;
         const lastSun = new Date(d.setDate(diff));
         lastSun.setHours(23, 59, 0, 0);
         return lastSun;
@@ -740,6 +777,8 @@
             addUserXP(CONFIG.rewards.playerXPPerWorldBoss);
             document.getElementById('modal-title').innerText = `FOE VANQUISHED`;
             document.getElementById('modal-body').innerHTML = `<p>+1000 Player XP, +500 Gold, +250 Rep</p>`;
+            document.getElementById('custom-modal').style.display = 'none';
+            document.getElementById('modal-save').innerText = "Accept Glory";
             document.getElementById('custom-modal').style.display = 'flex';
             document.getElementById('modal-save').onclick = closeModal;
         }
@@ -814,11 +853,62 @@
 
     function closeModal() { document.getElementById('custom-modal').style.display = 'none'; }
 
+    // --- NEW: STREAK CALCULATION ---
+    function getStreak(questId) {
+        let streak = 0;
+        const d = new Date();
+        // Check backwards
+        while (true) {
+            const dateStr = d.toISOString().split('T')[0];
+            if (state.history[dateStr] && state.history[dateStr][questId]) {
+                streak++;
+                d.setDate(d.getDate() - 1);
+            } else {
+                // If it's today and not yet done, we check yesterday to see if streak is still alive
+                const todayStr = new Date().toISOString().split('T')[0];
+                if (dateStr === todayStr) {
+                    d.setDate(d.getDate() - 1);
+                    continue;
+                }
+                break;
+            }
+        }
+        return streak;
+    }
+
+    function openEvolveRite(id) {
+        const quest = state.quests.find(q => q.id === id);
+        if (!quest) return;
+
+        document.getElementById('modal-title').innerText = "THE FORGE OF EVOLUTION";
+        document.getElementById('modal-body').innerHTML = `
+            <p>You have mastered this ritual. How shall you raise the bar?</p>
+            <input type="text" id="evolve-name-input" value="${quest.name}" style="width:100%; margin-top:10px;">
+            <p style="font-size:0.7rem; color:var(--iron); margin-top:5px;">Your streak will continue as you transcend to higher discipline.</p>
+        `;
+        document.getElementById('modal-cancel').style.display = 'block';
+        document.getElementById('modal-save').innerText = "Raise the Bar";
+        document.getElementById('modal-save').onclick = () => {
+            const newName = document.getElementById('evolve-name-input').value.trim();
+            if (newName) {
+                const oldName = quest.name;
+                quest.name = newName;
+                addLog(`EVOLUTION: <b>${oldName}</b> has become <b>${newName}</b>.`);
+                closeModal();
+                save();
+            }
+        };
+        document.getElementById('custom-modal').style.display = 'flex';
+    }
+
     function render() {
         const today = new Date().toISOString().split('T')[0];
         const boss = BOSS_POOL[(state.bossLevel - 1) % BOSS_POOL.length];
         const maxHP = calculateMaxHP();
         const maxMP = calculateMaxMana();
+
+        if (state.userHP > maxHP) state.userHP = maxHP;
+        if (state.userMana > maxMP) state.userMana = maxMP;
 
         document.getElementById('user-name').innerText = state.userName || "Leighton";
         document.getElementById('player-hp-text').innerText = `${Math.floor(state.userHP)} / ${maxHP}`;
@@ -861,8 +951,24 @@
 
         document.getElementById('stat-grid').innerHTML = Object.entries(statsData).map(([k, d]) => `<div class="stat-card"><div style="display:flex; justify-content:space-between; font-size:0.7rem;"><span>${CONFIG.stats[k].label}</span><b>LVL ${d.total}</b></div><div style="font-size:1.1rem; color:var(--gold)">${k} <small style="font-size:0.6rem; color:var(--iron)">${d.bonus > 0 ? `(+${d.bonus})` : ''}</small></div><div class="xp-bar"><div class="xp-fill" style="width:${(state.stats[k].xp / (d.base * CONFIG.xpBase)) * 100}%"></div></div></div>`).join('');
 
+        // --- Rites List Render ---
         const riteCont = document.getElementById('quest-list');
-        riteCont.innerHTML = state.quests.map(q => `<div class="quest-item ${state.history[today]?.[q.id] ? 'completed' : ''}"><div class="manage-controls"><button class="control-btn" onclick="deleteItem('rites', ${q.id})">X</button></div><div style="flex-grow:1"><b>${q.name}</b><br><small>${q.stat} Rite</small></div><div class="rune-trigger ${state.history[today]?.[q.id] ? 'active' : ''}" onclick="toggleQuest(${q.id}, '${q.stat}')">${CONFIG.stats[q.stat].rune}</div></div>`).join('');
+        riteCont.innerHTML = state.quests.map(q => {
+            const streak = getStreak(q.id);
+            const isEvolveReady = streak >= 30;
+            return `
+                <div class="quest-item ${state.history[today]?.[q.id] ? 'completed' : ''} ${isEvolveReady ? 'evolve-ready' : ''}">
+                    ${isEvolveReady ? '<div class="evolve-badge">READY TO EVOLVE</div>' : ''}
+                    <div class="manage-controls"><button class="control-btn" onclick="deleteItem('rites', ${q.id})">X</button></div>
+                    <div style="flex-grow:1">
+                        <b>${q.name}</b><br>
+                        <small>${q.stat} Rite | Streak: ${streak}🔥</small>
+                        ${isEvolveReady ? `<br><button class="btn-viking" style="font-size:0.5rem; padding:4px 8px; margin-top:5px; background:var(--gold); color:#000;" onclick="openEvolveRite(${q.id})">EVOLVE</button>` : ''}
+                    </div>
+                    <div class="rune-trigger ${state.history[today]?.[q.id] ? 'active' : ''}" onclick="toggleQuest(${q.id}, '${q.stat}')">${CONFIG.stats[q.stat].rune}</div>
+                </div>
+            `;
+        }).join('');
         
         const ritCont = document.getElementById('ritual-list');
         ritCont.innerHTML = state.rituals.map(r => `<div class="ritual-item ${state.history[today]?.[r.id] ? 'completed' : ''}"><div class="manage-controls"><button class="control-btn" onclick="deleteItem('rituals', ${r.id})">X</button></div><div style="flex-grow:1"><b>${r.name}</b><br><small>${r.stat} | C: ${r.completions}</small></div><div class="ritual-trigger ${state.history[today]?.[r.id] ? 'active' : ''}" onclick="toggleRitual(${r.id}, '${r.stat}')">${CONFIG.stats[r.stat].rune}</div></div>`).join('');
@@ -910,6 +1016,7 @@
         reader.readAsText(e.target.files[0]);
     }
 
+    const currentTrialStat = Object.keys(CONFIG.stats)[Math.floor(Date.now() / (1000 * 60 * 60 * 24 * 7)) % 6];
     checkDailyResets();
 </script>
 </body>
