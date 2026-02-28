@@ -18,21 +18,14 @@
             --victory-green: #2e7d32;
             --hp-green: #4caf50;
             --mana-blue: #2196f3;
-            
             --divine-gold: #ffd700;
             --sickly-green: #a3e635;
             --toxic-shadow: #3f6212;
-
-            --clr-str: #ff4d4d;
-            --clr-int: #4de6ff;
-            --clr-cha: #ffb347;
-            --clr-dex: #47ff72;
-            --clr-con: #ff4791;
-            --clr-wis: #b347ff;
+            --clr-str: #ff4d4d; --clr-int: #4de6ff; --clr-cha: #ffb347;
+            --clr-dex: #47ff72; --clr-con: #ff4791; --clr-wis: #b347ff;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
             background-color: var(--stone-dark);
             color: var(--parchment);
@@ -42,17 +35,14 @@
             line-height: 1.4;
             min-height: 100vh;
         }
-
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://www.transparenttextures.com/patterns/stardust.png');
             opacity: 0.15; pointer-events: none; animation: drift 120s linear infinite; z-index: -1;
         }
-
         @keyframes drift { from { background-position: 0 0; } to { background-position: 1000px 1000px; } }
 
         .container { max-width: 500px; margin: 0 auto; padding: 15px; }
-
         header { text-align: center; padding: 20px 0; position: relative; }
 
         .avatar-aura {
@@ -60,27 +50,20 @@
             display: flex; align-items: center; justify-content: center;
             position: relative; background: #111; transition: all 1.5s ease; margin-bottom: 10px;
         }
-
         .avatar-aura.luster-gold { 
             box-shadow: 0 0 30px var(--divine-gold), inset 0 0 10px var(--divine-gold); 
-            border: 2px solid var(--divine-gold);
-            animation: pulse-gold 4s infinite alternate;
+            border: 2px solid var(--divine-gold); animation: pulse-gold 4s infinite alternate;
         }
-
         .avatar-aura.luster-sickly { 
             box-shadow: 0 0 25px var(--sickly-green), inset 0 0 15px var(--toxic-shadow); 
-            border: 2px solid var(--sickly-green);
-            animation: flicker-sickly 2s infinite;
-            filter: saturate(1.5);
+            border: 2px solid var(--sickly-green); animation: flicker-sickly 2s infinite; filter: saturate(1.5);
         }
-
         @keyframes pulse-gold { 0% { box-shadow: 0 0 15px var(--divine-gold); } 100% { box-shadow: 0 0 40px var(--divine-gold); } }
         @keyframes flicker-sickly { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.8; transform: scale(0.98); } }
 
         .avatar-circle {
             width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center;
-            justify-content: center; font-size: 2.2rem; background: #000; font-family: 'MedievalSharp'; color: white; z-index: 2;
-            border: 1px solid #333;
+            justify-content: center; font-size: 2.2rem; background: #000; font-family: 'MedievalSharp'; color: white; z-index: 2; border: 1px solid #333;
         }
 
         h1 { font-family: 'MedievalSharp'; color: var(--gold); font-size: 1.8rem; letter-spacing: 2px; text-shadow: 0 2px 4px #000; margin-bottom: 2px; }
@@ -96,47 +79,44 @@
         .mana-fill { background: linear-gradient(90deg, #0d47a1, #2196f3); }
         .xp-fill-global { background: linear-gradient(90deg, #004d40, var(--exp-glow)); }
 
-        .resources-row { display: flex; justify-content: space-around; font-size: 0.8rem; color: var(--gold); margin-top: 10px; border-top: 1px solid #333; padding-top: 10px; }
+        .resources-row { display: flex; justify-content: space-around; font-size: 0.7rem; color: var(--gold); margin-top: 10px; border-top: 1px solid #333; padding-top: 10px; font-family: 'MedievalSharp'; letter-spacing: 1px; }
+        .resources-row b { color: var(--parchment); }
 
-        /* --- Navigation Tabs (Fixed Scrolling and Spacing) --- */
-        .nav-wrapper {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: #1a1a1a;
-            border-top: 1px solid var(--wood-trim);
-            border-bottom: 1px solid var(--wood-trim);
-            width: 100%;
-        }
+        .realms-map { margin-bottom: 20px; padding: 40px 15px; background: rgba(0,0,0,0.6); border: 1px solid var(--wood-trim); text-align: center; overflow: visible; }
+        .map-line { height: 8px; background: #111; position: relative; margin: 20px 0; border-radius: 4px; box-shadow: inset 0 2px 4px #000; border: 1px solid #333; overflow: visible; }
+        .bifrost-progress { height: 100%; background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff); position: absolute; left: 0; border-radius: 4px; box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+        #map-nodes { position: absolute; width: 100%; height: 100%; top: 0; left: 0; }
+        .realm-node { position: absolute; top: 50%; transform: translate(-50%, -50%); z-index: 5; text-align: center; }
+        .node-dot { width: 12px; height: 12px; background: #000; border: 2px solid #555; border-radius: 50%; margin: 0 auto; transition: 0.3s; }
+        .realm-node.active .node-dot { background: var(--gold); border-color: white; box-shadow: 0 0 10px var(--gold); transform: scale(1.2); }
+        .realm-name { position: absolute; width: 80px; left: 50%; transform: translateX(-50%); font-size: 0.5rem; font-family: 'MedievalSharp'; color: #777; white-space: nowrap; }
+        .realm-node:nth-child(odd) .realm-name { top: -25px; }
+        .realm-node:nth-child(even) .realm-name { bottom: -25px; }
+        .realm-node.active .realm-name { color: var(--gold); font-size: 0.55rem; }
 
-        .nav-wrapper::before, .nav-wrapper::after {
-            content: ""; position: absolute; top: 0; bottom: 0; width: 40px; pointer-events: none; z-index: 1001; transition: opacity 0.3s;
-        }
+        .nav-wrapper { position: sticky; top: 0; z-index: 1000; background: #1a1a1a; border-top: 1px solid var(--wood-trim); border-bottom: 1px solid var(--wood-trim); width: 100%; }
+        .nav-wrapper::before, .nav-wrapper::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40px; pointer-events: none; z-index: 1001; transition: opacity 0.3s; }
         .nav-wrapper::before { left: 0; background: linear-gradient(to right, #1a1a1a, transparent); opacity: var(--left-opacity, 0); }
         .nav-wrapper::after { right: 0; background: linear-gradient(to left, #1a1a1a, transparent); opacity: var(--right-opacity, 1); }
-
+        
         nav { 
             display: flex; 
             overflow-x: auto; 
             padding: 0 10px;
-            scrollbar-width: none;
+            scrollbar-width: thin; 
+            scrollbar-color: var(--gold) var(--wood-trim);
             -webkit-overflow-scrolling: touch; 
         }
-        nav::-webkit-scrollbar { display: none; }
-        
-        nav button { 
-            background: none; border: none; border-bottom: 3px solid transparent; 
-            color: #777; font-family: 'MedievalSharp'; cursor: pointer; font-size: 0.65rem; 
-            padding: 14px 18px; transition: 0.3s; text-transform: uppercase; flex-shrink: 0; white-space: nowrap;
-        }
+        nav::-webkit-scrollbar { height: 6px; display: block; }
+        nav::-webkit-scrollbar-track { background: var(--wood-trim); }
+        nav::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+        nav button { background: none; border: none; border-bottom: 3px solid transparent; color: #777; font-family: 'MedievalSharp'; cursor: pointer; font-size: 0.65rem; padding: 12px 18px; transition: 0.3s; text-transform: uppercase; flex-shrink: 0; white-space: nowrap; }
         nav button.active { color: var(--gold); border-bottom-color: var(--gold); background: rgba(197, 160, 89, 0.1); }
+        .nav-spacer { flex: 0 0 30px; }
 
-        .nav-spacer { flex: 0 0 40px; width: 40px; }
-
-        /* --- Content Blocks --- */
         .page { display: none; padding-top: 20px; padding-bottom: 80px; }
         .page.active { display: block; animation: slideUp 0.3s ease-out; }
-
         @keyframes slideUp { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         .stat-card { background: #2a2a2a; background-image: url('https://www.transparenttextures.com/patterns/dark-leather.png'); border: 1px solid #3a3a3a; box-shadow: 0 4px 15px rgba(0,0,0,0.5); padding: 15px; margin-bottom: 15px; }
@@ -157,6 +137,7 @@
         .rune-trigger.active { background: var(--gold); color: #000; box-shadow: 0 0 10px var(--gold); }
 
         .btn-viking { background: var(--blood-red); border: 1px solid var(--gold); color: #fff; padding: 10px; font-family: 'MedievalSharp'; text-transform: uppercase; cursor: pointer; font-size: 0.7rem; }
+        .btn-viking:disabled { opacity: 0.3; filter: grayscale(1); cursor: not-allowed; }
 
         .skills-grid { display: grid; grid-template-columns: 1fr; gap: 5px; margin-top: 10px; }
         .skill-btn { background: rgba(33, 150, 243, 0.1); border: 1px solid rgba(33, 150, 243, 0.3); color: var(--parchment); padding: 6px 10px; text-align: left; font-family: 'Almendra'; cursor: pointer; font-size: 0.75rem; }
@@ -169,10 +150,18 @@
         .log-entry { border-bottom: 1px solid #222; padding: 4px 0; }
         
         #custom-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 2000; }
-        .modal-content { background: #222; border: 2px solid var(--gold); padding: 25px; max-width: 90%; text-align: center; }
+        .modal-content { background: #222; border: 2px solid var(--gold); padding: 25px; width: 90%; max-width: 400px; text-align: center; }
+
+        .fates-card { border-top: 3px solid var(--gold); }
+        .fates-history { font-size: 0.6rem; color: #888; background: #111; padding: 5px; margin-top: 10px; border-radius: 4px; }
+        .fates-row { display: flex; justify-content: space-between; margin-bottom: 5px; border-bottom: 1px solid #222; padding-bottom: 2px; }
+
+        input, select { background: #111; border: 1px solid var(--wood-trim); color: var(--parchment); padding: 8px; font-family: 'Almendra'; margin-bottom: 5px; width: 100%; }
 
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-thumb { background: #444; }
+
+        .potion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     </style>
 </head>
 <body>
@@ -207,13 +196,11 @@
                 <div class="bar-label" style="color:var(--exp-glow);"><span>PLAYER LEVEL <b id="user-level-val">1</b></span><span id="user-xp-text">0 / 0 XP</span></div>
                 <div class="bar-container" style="height:6px;"><div class="fill-inner xp-fill-global" id="user-xp-fill" style="width:0%"></div></div>
             </div>
-
             <div id="skills-container" class="skills-grid"></div>
-
             <div class="resources-row">
-                <span>ᚠ <span id="res-gold">0</span></span>
-                <span>ᚺ <span id="res-rep">0</span></span>
-                <span title="Rune Fragments">ᛟ <span id="res-runes">0</span></span>
+                <span>ᚠ <b>Gold</b> <span id="res-gold">0</span></span>
+                <span>ᚺ <b>Renown</b> <span id="res-rep">0</span></span>
+                <span title="Rune Fragments">ᛟ <b>Fragments</b> <span id="res-runes">0</span></span>
             </div>
         </div>
     </header>
@@ -221,6 +208,7 @@
     <div class="nav-wrapper" id="nav-wrapper">
         <nav id="nav-tabs" onscroll="updateNavShadows(this)">
             <button onclick="showPage('longhouse')" id="nav-longhouse" class="active">Saga</button>
+            <button onclick="showPage('fates')" id="nav-fates">Fates</button>
             <button onclick="showPage('rites')" id="nav-rites">Rites</button>
             <button onclick="showPage('rituals')" id="nav-rituals">Rituals</button>
             <button onclick="showPage('killlist')" id="nav-killlist">Kill List</button>
@@ -240,9 +228,8 @@
                 <div class="bifrost-progress" id="bifrost-fill"></div>
                 <div id="map-nodes"></div>
             </div>
-            <small id="realm-desc" style="color:#aaa; font-size:0.6rem;"></small>
+            <small id="realm-desc" style="color:#aaa; font-size:0.6rem; display:block; margin-top:30px;"></small>
         </div>
-
         <div class="stat-card">
             <h3>World Threat</h3>
             <div id="boss-active-ui">
@@ -260,9 +247,7 @@
                 <button class="btn-viking" style="width:100%; margin-top:10px;" onclick="resetBoss()">Banish Remains</button>
             </div>
         </div>
-
         <div class="stat-grid" id="stat-grid"></div>
-        
         <div class="stat-card" style="margin-top:15px; text-align:center;">
             <h3>Stoic Wisdom</h3>
             <p id="stoic-quote" style="font-size:1rem; font-style:italic;"></p>
@@ -271,7 +256,28 @@
         </div>
     </section>
 
-    <!-- PAGE: RITES -->
+    <!-- PAGE: FATES -->
+    <section id="fates" class="page">
+        <h3 style="font-family:'MedievalSharp'; color:var(--gold); margin-bottom:15px;">The Loom of Fate</h3>
+        <div id="fates-list"></div>
+        <div class="add-form stat-card">
+            <h3>Forge New Fate</h3>
+            <input type="text" id="d-name" placeholder="Name your Fate">
+            <div style="display:flex; gap:5px;">
+                <input type="text" id="d-metric" placeholder="Metric (lbs, %)" style="flex:1;">
+                <select id="d-stat" style="flex:1;">
+                    <option value="STR">STR</option><option value="INT">INT</option><option value="CON">CON</option>
+                    <option value="DEX">DEX</option><option value="WIS">WIS</option><option value="CHA">CHA</option>
+                </select>
+            </div>
+            <div style="display:flex; gap:5px;">
+                <input type="number" id="d-start" placeholder="Starting Mark" style="flex:1;">
+                <input type="number" id="d-target" placeholder="Target Mark" style="flex:1;">
+            </div>
+            <button class="btn-viking" style="width:100%; margin-top:10px;" onclick="createFate()">Weave into Fate</button>
+        </div>
+    </section>
+
     <section id="rites" class="page">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
             <h3>Daily Rites</h3>
@@ -325,37 +331,32 @@
             <select id="k-miniboss" style="width:100%; margin-top:5px;"></select>
             <button class="btn-viking" style="margin-top:10px; width:100%;" onclick="addKillTask()">Stake My Word</button>
         </div>
-        <div class="add-form stat-card" style="border-color: var(--blood-red);">
-            <h3>Declare Warfront (Mini-Boss)</h3>
-            <div class="add-form-row">
-                <input type="text" id="mb-name" placeholder="Project name...">
-                <select id="mb-difficulty">
-                    <option value="3">Skirmish (3 Tasks)</option><option value="5" selected>Siege (5 Tasks)</option><option value="10">War (10 Tasks)</option>
-                </select>
-            </div>
-            <button class="btn-viking" style="margin-top:10px; width:100%; background:var(--wood-trim);" onclick="createMiniBoss()">Sound the Horn</button>
-        </div>
         <div id="completed-kill-list" style="margin-top:20px;"></div>
     </section>
 
     <section id="store" class="page">
-        <h3>Artifacts & Gear</h3>
+        <h3 style="font-family:'MedievalSharp'; color:var(--gold); margin-bottom:15px;">Ancestral Artifacts</h3>
         <div id="store-artifacts" style="margin-bottom:20px;"></div>
-        <h3 style="border-top:1px solid var(--wood-trim); padding-top:15px; margin-bottom:10px;">Spoils Peddler</h3>
+        
+        <h3 style="font-family:'MedievalSharp'; color:var(--gold); margin-bottom:15px; border-top:1px solid #333; padding-top:15px;">The Apothecary</h3>
+        <div id="store-potions" class="potion-grid" style="margin-bottom:20px;"></div>
+
+        <h3 style="font-family:'MedievalSharp'; color:var(--gold); border-top:1px solid var(--wood-trim); padding-top:15px; margin-bottom:10px;">Spoils Peddler</h3>
         <div id="store-custom-rewards"></div>
         <div class="add-form stat-card">
             <div class="add-form-row">
                 <input type="text" id="sr-name" placeholder="Reward">
                 <input type="number" id="sr-cost" placeholder="Cost" style="width:70px;">
-                <select id="sr-type" style="width:70px;"><option value="gold">Gold</option><option value="rep">Rep</option></select>
+                <select id="sr-type" style="width:70px;"><option value="gold">Gold</option><option value="rep">Renown</option></select>
             </div>
             <button class="btn-viking" style="margin-top:10px; width:100%; font-size:0.7rem;" onclick="addCustomRewardDefinition()">Add to Peddler</button>
         </div>
     </section>
 
     <section id="inventory" class="page">
-        <h3>Your Hoard</h3>
+        <h3>Equipped Artifacts</h3>
         <div id="inv-artifacts" style="margin-bottom:20px;"></div>
+        <h3>Claimed Spoils</h3>
         <div id="inv-spoils"></div>
     </section>
 
@@ -383,15 +384,24 @@
         stats: {
             STR: { label: "Strength", rune: "ᚦ", class: "Warrior", clr: "var(--clr-str)", titles: ["Shieldbearer", "Housecarl", "The Iron Jarl"], skills: [{n:"Shield Bash", m:50, l:1, d:200, desc: "200 Boss Damage."}, {n:"Battle Cry", m:80, l:3, d:400, desc: "400 Boss Damage."}, {n:"Juggernaut", m:120, l:5, d:800, desc: "800 Boss Damage."}] },
             INT: { label: "Intellect", rune: "ᚨ", class: "Runemaster", clr: "var(--clr-int)", titles: ["Scholar", "Law-Speaker", "High Runemaster"], skills: [{n:"Rune Fire", m:50, l:1, d:250, desc: "250 Boss Damage."}, {n:"Transmute", m:80, l:3, g:50, desc: "Mana to gold. +50 Gold."}, {n:"Arcane Surge", m:120, l:5, d:1000, desc: "1000 Boss Damage."}] },
-            CHA: { label: "Charisma", rune: "ᚷ", class: "Skald", clr: "var(--clr-cha)", titles: ["Speaker", "Lore-Singer", "Voice of Kings"], skills: [{n:"War Song", m:50, l:1, d:200, desc: "200 Boss Damage."}, {n:"Heroic Ballad", m:80, l:3, r:100, desc: "Earn reputation. +100 Rep."}, {n:"Skaldic Verse", m:120, l:5, d:700, desc: "700 Boss Damage."}] },
+            CHA: { label: "Charisma", rune: "ᚷ", class: "Skald", clr: "var(--clr-cha)", titles: ["Speaker", "Lore-Singer", "Voice of Kings"], skills: [{n:"War Song", m:50, l:1, d:200, desc: "200 Boss Damage."}, {n:"Heroic Ballad", m:80, l:3, r:100, desc: "Earn renown. +100 Renown."} , {n:"Skaldic Verse", m:120, l:5, d:700, desc: "700 Boss Damage."}] },
             DEX: { label: "Agility", rune: "ᚱ", class: "Ranger", clr: "var(--clr-dex)", titles: ["Apprentice", "Craftsman", "Grandmaster"], skills: [{n:"Precision Shot", m:50, l:1, d:250, desc: "Vitals strike. 250 DMG."}, {n:"Scavenge", m:80, l:3, g:40, desc: "Find loot. +40 Gold."}, {n:"Arrow Rain", m:120, l:5, d:900, desc: "Sky darkens. 900 DMG."}] },
             CON: { label: "Constitution", rune: "ᚢ", class: "Berserker", clr: "var(--clr-con)", titles: ["Stalwart", "Stone-Skinned", "The Unbroken"], skills: [{n:"Reckless Strike", m:50, l:1, d:300, desc: "Hard impact. 300 DMG."}, {n:"Thick Skin", m:80, l:3, h:100, desc: "Heal resolve. +100 HP."}, {n:"Rampage", m:120, l:5, d:1000, desc: "Primal rage. 1000 DMG."}] },
             WIS: { label: "Wisdom", rune: "ᛟ", class: "Seer", clr: "var(--clr-wis)", titles: ["Watcher", "Dream-Walker", "The All-Seeing"], skills: [{n:"Clairvoyance", m:50, l:1, x:100, desc: "Vision. +100 XP."}, {n:"Dream Walk", m:80, l:3, d:400, desc: "Ethereal strike. 400 DMG."}, {n:"Prophecy", m:120, l:5, d:900, desc: "Fated strike. 900 DMG."}] }
         },
         realms: [{ n: "Midgard", d: "Human Realm." }, { n: "Alfheim", d: "Realm of Light." }, { n: "Svartalfheim", d: "The Forge." }, { n: "Vanaheim", d: "Natural Order." }, { n: "Jötunheim", d: "Realm of Giants." }, { n: "Niflheim", d: "Frozen Mist." }, { n: "Muspelheim", d: "Burning Realm." }, { n: "Helheim", d: "Dark Depths." }, { n: "Asgard", d: "Seat of Aesir." }],
         xpBase: 100, userXPBase: 1000,
-        rewards: { xpPerRite: 25, xpPerRitual: 25, xpTrialBonus: 25, xpPerKill: 10, playerXPPerRite: 10, playerXPPerKill: 50, playerXPPerWorldBoss: 1000, goldPerRite: 5, goldPerRitual: 5, goldPerKill: 25, repPerLevel: 50, bossVictoryGold: 500, bossVictoryRep: 250, userLevelUpGold: 100, userLevelUpRep: 100 }
+        rewards: { xpPerRite: 25, xpPerRitual: 25, xpTrialBonus: 25, xpPerKill: 10, playerXPPerRite: 10, playerXPPerKill: 50, playerXPPerWorldBoss: 1000, goldPerRite: 5, goldPerRitual: 5, goldPerKill: 25, repPerLevel: 50, bossVictoryGold: 500, bossVictoryRenown: 250, userLevelUpGold: 100, userLevelUpRenown: 100 }
     };
+
+    const POTION_POOL = [
+        { id: 'hp1', name: "Life-Dew", val: 50, cost: 250, type: 'hp', desc: "+50 Vitality" },
+        { id: 'hp2', name: "Einherjar Draft", val: 150, cost: 650, type: 'hp', desc: "+150 Vitality" },
+        { id: 'hp3', name: "Blood of Ymir", val: 9999, cost: 1500, type: 'hp', desc: "Full Vitality" },
+        { id: 'mp1', name: "Drop of Mimir", val: 40, cost: 250, type: 'mp', desc: "+40 Essence" },
+        { id: 'mp2', name: "Seer Phial", val: 120, cost: 650, type: 'mp', desc: "+120 Essence" },
+        { id: 'mp3', name: "Spirit of Bifrost", val: 9999, cost: 1500, type: 'mp', desc: "Full Essence" }
+    ];
 
     const STOIC_QUOTES = [
         { q: "The happiness of your life depends upon the quality of your thoughts.", a: "Marcus Aurelius", b: "WIS" }, { q: "We suffer more often in imagination than in reality.", a: "Seneca", b: "STR" }, { q: "Waste no more time arguing about what a good man should be. Be one.", a: "Marcus Aurelius", b: "CON" }, { q: "Wealth consists not in having great possessions, but in having few wants.", a: "Epictetus", b: "INT" }, { q: "No man is free who is not master of himself.", a: "Epictetus", b: "CHA" }, { q: "It is a rough road that leads to the heights of greatness.", a: "Seneca", b: "DEX" }
@@ -400,45 +410,116 @@
     const BOSS_POOL = [ { name: "Jörmungandr", title: "The World Serpent", icon: "🐍" }, { name: "Fenrir", title: "The Bound Wolf", icon: "🐺" }, { name: "Níðhöggr", title: "The Dragon of Roots", icon: "🐉" }, { name: "Garmr", title: "The Hound of Hel", icon: "🐕" }, { name: "Surtr", title: "Bringer of Ragnarök", icon: "🔥" } ];
     const ARTIFACT_POOL = [ { id: 101, name: "Thor's Gauntlet", stat: "STR", bonus: 2, cost: 200, type: "gold" }, { id: 102, name: "Eye of Odin", stat: "WIS", bonus: 3, cost: 500, type: "rep" }, { id: 103, name: "Brisingamen", stat: "CHA", bonus: 2, cost: 150, type: "gold" }, { id: 104, name: "Drake-Skin Boots", stat: "DEX", bonus: 2, cost: 300, type: "gold" }, { id: 105, name: "Mead of Poetry", stat: "INT", bonus: 2, cost: 200, type: "rep" } ];
 
-    let state = JSON.parse(localStorage.getItem('iron_saga_final')) || { userName: "Leighton", stats: { STR:{xp:0,lvl:1}, INT:{xp:0,lvl:1}, CHA:{xp:0,lvl:1}, DEX:{xp:0,lvl:1}, CON:{xp:0,lvl:1}, WIS:{xp:0,lvl:1} }, quests: [], rituals: [], killList: [], miniBosses: [], completedKillList: [], inventory: [], equippedItemIds: [], customRewards: [], ownedRewards: [], history: {}, logs: [{ time: Date.now(), text: "The saga begins." }], bossHP: 2500, bossMaxHP: 2500, bossLevel: 1, bossDefeated: false, gold: 0, rep: 0, runeFragments: 0, userLevel: 1, userXP: 0, userMana: 100, userHP: 100, luckBuffTime: 0, lastCheckedDate: new Date().toISOString().split('T')[0], lastSundayReset: new Date().toISOString() };
+    let state = JSON.parse(localStorage.getItem('iron_saga_final')) || { userName: "Leighton", stats: { STR:{xp:0,lvl:1}, INT:{xp:0,lvl:1}, CHA:{xp:0,lvl:1}, DEX:{xp:0,lvl:1}, CON:{xp:0,lvl:1}, WIS:{xp:0,lvl:1} }, quests: [], rituals: [], killList: [], miniBosses: [], completedKillList: [], inventory: [], equippedItemIds: [], customRewards: [], ownedRewards: [], history: {}, logs: [{ time: Date.now(), text: "The saga begins." }], bossHP: 2500, bossMaxHP: 2500, bossLevel: 1, bossDefeated: false, gold: 0, rep: 0, runeFragments: 0, userLevel: 1, userXP: 0, userMana: 100, userHP: 100, luckBuffTime: 0, lastCheckedDate: getTodayStr(), lastSundayReset: new Date().toISOString(), destinies: [] };
+
+    let graceItems = [];
+    let graceDate = "";
+    let managementMode = { rites: false, rituals: false };
+
+    function getTodayStr() { const now = new Date(); return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`; }
 
     function save() { clampResources(); localStorage.setItem('iron_saga_final', JSON.stringify(state)); render(); }
-    function clampResources() { const maxHP = calculateMaxHP(); const maxMP = calculateMaxMana(); if (state.userHP > maxHP) state.userHP = maxHP; if (state.userMana > maxMP) state.userMana = maxMP; if (state.userXP < 0) state.userXP = 0; }
+    function clampResources() { const maxHP = calculateMaxHP(); const maxMP = calculateMaxMana(); if (state.userHP > maxHP) state.userHP = maxHP; if (state.userMana > maxMP) state.userMana = maxMP; if (state.userMana < 0) state.userMana = 0; if (state.userXP < 0) state.userXP = 0; if (state.gold < 0) state.gold = 0; }
     function calculateMaxMana() { return (getStatTotal('INT').total * 15) + (getStatTotal('WIS').total * 10) + (state.userLevel * 20); }
     function calculateMaxHP() { return (getStatTotal('CON').total * 20) + (getStatTotal('STR').total * 10) + (state.userLevel * 50); }
     function getStatTotal(statKey) { let base = state.stats[statKey].lvl; let bonus = 0; state.equippedItemIds.forEach(iid => { const item = state.inventory.find(i => i.instanceId === iid); if (item && item.stat === statKey) bonus += item.bonus; }); return { base, bonus, total: base + bonus }; }
-    function addUserXP(amount) { state.userXP += amount; if (amount > 0) { const required = state.userLevel * CONFIG.userXPBase; if (state.userXP >= required) { state.userXP -= required; state.userLevel++; state.gold += CONFIG.rewards.userLevelUpGold; state.rep += CONFIG.rewards.userLevelUpRep; addLog(`LEVEL UP! Level ${state.userLevel}.`); } } }
+    function addUserXP(amount) { state.userXP += amount; if (amount > 0) { const required = state.userLevel * CONFIG.userXPBase; if (state.userXP >= required) { state.userXP -= required; state.userLevel++; state.gold += CONFIG.rewards.userLevelUpGold; state.rep += CONFIG.rewards.userLevelUpRenown; addLog(`ASCENSION! REACHED LEVEL ${state.userLevel}.`); } } else if (state.userXP < 0) state.userXP = 0; }
 
-    function toggleQuest(id, stat) {
-        const today = new Date().toISOString().split('T')[0]; if (!state.history[today]) state.history[today] = {}; const isComp = !state.history[today][id]; state.history[today][id] = isComp;
-        if (isComp) { let xp = CONFIG.rewards.xpPerRite; if (stat === getDailyBlessedStat()) xp *= 1.25; addXP(stat, xp); addUserXP(CONFIG.rewards.playerXPPerRite); state.userMana = Math.min(calculateMaxMana(), state.userMana + 10); state.gold += calculateGoldReward(CONFIG.rewards.goldPerRite); state.bossHP = Math.max(0, state.bossHP - 35); checkBossDefeat(); }
+    function buyPotion(id) {
+        const pot = POTION_POOL.find(p => p.id === id);
+        if (state.gold >= pot.cost) {
+            state.gold -= pot.cost;
+            if (pot.type === 'hp') {
+                const max = calculateMaxHP();
+                state.userHP = pot.val > 9000 ? max : Math.min(max, state.userHP + pot.val);
+                addLog(`Consumed ${pot.name}. Vitality restored.`);
+            } else {
+                const max = calculateMaxMana();
+                state.userMana = pot.val > 9000 ? max : Math.min(max, state.userMana + pot.val);
+                addLog(`Consumed ${pot.name}. Essence restored.`);
+            }
+            save();
+        }
+    }
+
+    function createFate() {
+        const name = document.getElementById('d-name').value;
+        const metric = document.getElementById('d-metric').value;
+        const startValue = parseFloat(document.getElementById('d-start').value);
+        const targetValue = parseFloat(document.getElementById('d-target').value);
+        const stat = document.getElementById('d-stat').value;
+        if (!name || isNaN(startValue) || isNaN(targetValue)) return;
+        state.destinies.push({ id: Date.now(), name, metric, startValue, targetValue, currentValue: startValue, stat, history: [{date: getTodayStr(), value: startValue}], completed: false });
+        document.getElementById('d-name').value = ''; document.getElementById('d-metric').value = ''; document.getElementById('d-start').value = ''; document.getElementById('d-target').value = '';
         save();
     }
-    function toggleRitual(id, stat) {
-        const today = new Date().toISOString().split('T')[0]; if (!state.history[today]) state.history[today] = {}; const isComp = !state.history[today][id]; state.history[today][id] = isComp;
-        if (isComp) { let xp = CONFIG.rewards.xpPerRitual; if (stat === getDailyBlessedStat()) xp *= 1.25; addXP(stat, xp); addUserXP(CONFIG.rewards.playerXPPerRite); state.userMana = Math.min(calculateMaxMana(), state.userMana + 10); state.gold += calculateGoldReward(CONFIG.rewards.goldPerRitual); state.bossHP = Math.max(0, state.bossHP - 35); checkBossDefeat(); }
-        save();
+
+    function recordDeed(id) {
+        const dest = state.destinies.find(d => d.id === id);
+        document.getElementById('modal-title').innerText = "Record a Great Deed";
+        document.getElementById('modal-body').innerHTML = `<p>Update progress for: <b>${dest.name}</b></p><input type="number" id="deed-val" value="${dest.currentValue}" step="any" style="margin-top:10px;">`;
+        document.getElementById('modal-cancel').style.display = 'block';
+        document.getElementById('modal-save').innerText = "Record";
+        document.getElementById('modal-save').onclick = () => {
+            const newVal = parseFloat(document.getElementById('deed-val').value);
+            if (!isNaN(newVal)) {
+                dest.currentValue = newVal; dest.history.unshift({date: getTodayStr(), value: newVal}); if (dest.history.length > 5) dest.history.pop();
+                const totalDiff = Math.abs(dest.targetValue - dest.startValue);
+                const currentDiff = Math.abs(newVal - dest.startValue);
+                if (currentDiff >= totalDiff && !dest.completed) { dest.completed = true; addUserXP(1000); state.gold += 500; addLog(`FATE FULFILLED: ${dest.name}! +1000 XP, +500 Gold.`); }
+                save(); closeModal();
+            }
+        };
+        document.getElementById('custom-modal').style.display = 'flex';
     }
+
+    function buryFate(id) { state.destinies = state.destinies.filter(d => d.id !== id); save(); }
+
+    function toggleQuest(id, stat, dateOverride = null) {
+        const dateStr = dateOverride || getTodayStr(); if (!state.history[dateStr]) state.history[dateStr] = {}; 
+        const isNowComp = !state.history[dateStr][id]; state.history[dateStr][id] = isNowComp;
+        const mult = isNowComp ? 1 : -1;
+        let xp = CONFIG.rewards.xpPerRite; if (stat === getDailyBlessedStat()) xp *= 1.25;
+        addXP(stat, xp * mult); addUserXP(CONFIG.rewards.playerXPPerRite * mult); 
+        state.userMana = Math.max(0, Math.min(calculateMaxMana(), state.userMana + (10 * mult)));
+        state.gold += calculateGoldReward(CONFIG.rewards.goldPerRite) * mult;
+        state.bossHP = Math.max(0, Math.min(state.bossMaxHP, state.bossHP - (35 * mult)));
+        checkBossDefeat(); save();
+    }
+
+    function toggleRitual(id, stat, dateOverride = null) {
+        const dateStr = dateOverride || getTodayStr(); if (!state.history[dateStr]) state.history[dateStr] = {}; 
+        const isNowComp = !state.history[dateStr][id]; state.history[dateStr][id] = isNowComp;
+        const mult = isNowComp ? 1 : -1;
+        let rit = state.rituals.find(r => r.id === id); rit.completions = Math.max(0, rit.completions + mult); 
+        let xp = CONFIG.rewards.xpPerRitual; if (stat === getDailyBlessedStat()) xp *= 1.25;
+        addXP(stat, xp * mult); addUserXP(CONFIG.rewards.playerXPPerRite * mult); 
+        state.userMana = Math.max(0, Math.min(calculateMaxMana(), state.userMana + (10 * mult)));
+        state.gold += calculateGoldReward(CONFIG.rewards.goldPerRitual) * mult;
+        state.bossHP = Math.max(0, Math.min(state.bossMaxHP, state.bossHP - (35 * mult)));
+        checkBossDefeat(); save();
+    }
+
     function slayTask(id) {
         const idx = state.killList.findIndex(k => k.id === id); const task = state.killList[idx];
         if (task.miniBossId) { const mb = state.miniBosses.find(b => b.id === task.miniBossId); if (mb) { mb.currentHP--; if (mb.currentHP <= 0 && !mb.defeated) { mb.defeated = true; state.gold += mb.rewards.g; state.rep += mb.rewards.r; addUserXP(mb.rewards.x); addLog(`WARFRONT WON!`); } } }
-        if (Math.random() < 0.20) { const loot = ["Spirit Mead", "Luck Charm", "Rune Fragment"][Math.floor(Math.random()*3)]; if (loot === "Spirit Mead") { state.userMana = Math.min(calculateMaxMana(), state.userMana + 50); addLog("LOOT! Mead Found."); } else if (loot === "Luck Charm") { state.luckBuffTime = Date.now() + (86400000); addLog("LOOT! Luck Charm."); } else { state.runeFragments++; if (state.runeFragments >= 5) { state.runeFragments = 0; const s = Object.keys(CONFIG.stats)[Math.floor(Math.random()*6)]; state.stats[s].lvl++; addLog(`RUNE POWER! ${s} Up.`); } else addLog("LOOT! Rune Fragment."); } }
+        if (Math.random() < 0.20) { const loot = ["Spirit Mead", "Luck Charm", "Rune Fragment"][Math.floor(Math.random()*3)]; if (loot === "Spirit Mead") { state.userMana = Math.min(calculateMaxMana(), state.userMana + 50); addLog("LOOT! Spirit Mead Found."); } else if (loot === "Luck Charm") { state.luckBuffTime = Date.now() + (86400000); addLog("LOOT! Luck Charm Found."); } else { state.runeFragments++; if (state.runeFragments >= 5) { state.runeFragments = 0; const s = Object.keys(CONFIG.stats)[Math.floor(Math.random()*6)]; state.stats[s].lvl++; addLog(`DIVINE FRAGMENTS! ${s} Level Up.`); } else { addLog("LOOT! Rune Fragment Found."); } } }
         state.killList.splice(idx, 1); state.completedKillList.push(task); addXP(task.stat, CONFIG.rewards.xpPerKill); addUserXP(50); state.gold += calculateGoldReward(CONFIG.rewards.goldPerKill); state.bossHP = Math.max(0, state.bossHP - 150); checkBossDefeat(); save();
     }
 
     function calculateGoldReward(base) { return state.luckBuffTime > Date.now() ? Math.floor(base * 1.1) : base; }
     function getDailyBlessedStat() { return STOIC_QUOTES[new Date().getDate() % STOIC_QUOTES.length].b; }
-    function addXP(stat, amount) { let s = state.stats[stat]; s.xp += amount; if (s.xp >= (s.lvl * CONFIG.xpBase)) { s.xp -= (s.lvl * CONFIG.xpBase); s.lvl++; state.rep += CONFIG.rewards.repPerLevel; addLog(`${stat} Level ${s.lvl}.`); } }
+    function addXP(stat, amount) { let s = state.stats[stat]; s.xp += amount; if (amount > 0) { if (s.xp >= (s.lvl * CONFIG.xpBase)) { s.xp -= (s.lvl * CONFIG.xpBase); s.lvl++; state.rep += CONFIG.rewards.repPerLevel; addLog(`${stat} Level ${s.lvl}.`); } } else if (s.xp < 0) s.xp = 0; }
     function castSkill(idx, stat) { const s = CONFIG.stats[stat].skills[idx]; if (state.userMana < s.m) return; state.userMana -= s.m; if (s.d) state.bossHP = Math.max(0, state.bossHP - s.d); if (s.g) state.gold += calculateGoldReward(s.g); if (s.r) state.rep += s.r; if (s.x) addUserXP(s.x); if (s.h) state.userHP = Math.min(calculateMaxHP(), state.userHP + s.h); addLog(`Used ${s.n}.`); checkBossDefeat(); save(); }
-    function checkBossDefeat() { if (state.bossHP <= 0 && !state.bossDefeated) { state.bossDefeated = true; state.gold += CONFIG.rewards.bossVictoryGold; state.rep += CONFIG.rewards.bossVictoryRep; addUserXP(1000); document.getElementById('modal-title').innerText = `FOE VANQUISHED`; document.getElementById('modal-body').innerHTML = `<p>Legendary bounty secured.</p>`; document.getElementById('custom-modal').style.display = 'flex'; document.getElementById('modal-save').onclick = closeModal; } }
+    function checkBossDefeat() { if (state.bossHP <= 0 && !state.bossDefeated) { state.bossDefeated = true; state.gold += CONFIG.rewards.bossVictoryGold; state.rep += CONFIG.rewards.bossVictoryRenown; addUserXP(1000); document.getElementById('modal-title').innerText = `FOE VANQUISHED`; document.getElementById('modal-body').innerHTML = `<p>Boss Defeated.</p>`; document.getElementById('custom-modal').style.display = 'flex'; document.getElementById('modal-save').onclick = closeModal; } }
     function resetBoss() { state.bossLevel++; state.bossMaxHP += 750; state.bossHP = state.bossMaxHP; state.bossDefeated = false; save(); }
 
     function getStreak(id) {
         let sCount = 0; let checkD = new Date();
         while(true){
-            let ds = checkD.toISOString().split('T')[0];
+            let ds = `${checkD.getFullYear()}-${String(checkD.getMonth() + 1).padStart(2, '0')}-${String(checkD.getDate()).padStart(2, '0')}`;
             if(state.history[ds] && state.history[ds][id]) { sCount++; checkD.setDate(checkD.getDate()-1); }
-            else { if(ds === new Date().toISOString().split('T')[0]) { checkD.setDate(checkD.getDate()-1); continue; } break; }
+            else { if(ds === getTodayStr()) { checkD.setDate(checkD.getDate()-1); continue; } break; }
         }
         return sCount;
     }
@@ -452,63 +533,96 @@
     }
 
     function checkDailyResets() {
-        const today = new Date().toISOString().split('T')[0];
+        const today = getTodayStr();
         if (state.lastCheckedDate !== today) {
-            let misses = 0; state.rituals.forEach(r => { if (!state.history[state.lastCheckedDate]?.[r.id]) { r.misses = (r.misses || 0) + 1; misses++; } });
-            if (misses > 0) { const p = state.userLevel * 10 * misses; state.userXP = Math.max(0, state.userXP - p); addLog(`Lost ${p} XP to misses.`); }
-            state.lastCheckedDate = today;
-        }
-        save();
+            const unrecorded = [];
+            state.quests.forEach(q => { if (!state.history[state.lastCheckedDate]?.[q.id]) unrecorded.push({...q, type: 'quest'}); });
+            state.rituals.forEach(r => { if (!state.history[state.lastCheckedDate]?.[r.id]) unrecorded.push({...r, type: 'ritual'}); });
+            if (unrecorded.length > 0) showGracePeriodModal(unrecorded, state.lastCheckedDate);
+            else { state.lastCheckedDate = today; save(); }
+        } else save();
+    }
+
+    function showGracePeriodModal(items, date) {
+        graceItems = items; graceDate = date;
+        document.getElementById('modal-title').innerText = "Unrecorded Deeds";
+        let bodyHtml = `<p style="font-size:0.8rem; margin-bottom:15px;">Review: ${date}.</p><div id="grace-list" style="max-height:250px; overflow-y:auto; text-align:left;">`;
+        items.forEach(item => { bodyHtml += `<div class="quest-item" style="padding:10px; margin-bottom:5px;"><span>${item.name}</span><button class="rune-trigger" style="width:35px; height:35px; font-size:1rem;" onclick="this.classList.toggle('active')">ᚦ</button></div>`; });
+        bodyHtml += `</div>`;
+        document.getElementById('modal-body').innerHTML = bodyHtml; document.getElementById('modal-cancel').style.display = 'none'; document.getElementById('modal-save').innerText = "Seal Scroll"; document.getElementById('modal-save').onclick = finalizeGracePeriod;
+        document.getElementById('custom-modal').style.display = 'flex';
+    }
+
+    function finalizeGracePeriod() {
+        const listDiv = document.getElementById('grace-list'); const itemsDivs = listDiv.querySelectorAll('.quest-item'); let misses = 0;
+        itemsDivs.forEach((div, index) => {
+            const item = graceItems[index]; const isChecked = div.querySelector('.rune-trigger').classList.contains('active');
+            if (isChecked) { if (item.type === 'quest') toggleQuest(item.id, item.stat, graceDate); else toggleRitual(item.id, item.stat, graceDate); }
+            else { if (item.type === 'ritual') { const rit = state.rituals.find(r => r.id === item.id); rit.misses = (rit.misses || 0) + 1; misses++; } else misses++; }
+        });
+        if (misses > 0) { const p = state.userLevel * 10 * misses; addUserXP(-p); addLog(`Shadow of Hel: Lost ${p} XP for ${graceDate}.`); }
+        state.lastCheckedDate = getTodayStr(); closeModal(); save();
     }
 
     function render() {
-        const today = new Date().toISOString().split('T')[0];
+        const today = getTodayStr();
         const boss = BOSS_POOL[(state.bossLevel - 1) % BOSS_POOL.length];
         const maxHP = calculateMaxHP(); const maxMP = calculateMaxMana();
-        const sickly = state.rituals.length > 0 && state.rituals.some(r => (r.misses || 0) > 0) && state.rituals.every(r => !state.history[today]?.[r.id]);
-        
+        const historicalMisses = state.rituals.reduce((acc, r) => acc + (r.misses || 0), 0);
+        const sickly = historicalMisses > 0 || (state.rituals.length > 0 && state.rituals.filter(r => state.history[today]?.[r.id]).length < state.rituals.length);
         document.getElementById('avatar-aura-glow').className = `avatar-aura ${sickly ? 'luster-sickly' : 'luster-gold'}`;
         document.getElementById('user-name').innerText = state.userName;
         document.getElementById('player-hp-text').innerText = `${Math.floor(state.userHP)} / ${maxHP}`;
         document.getElementById('player-hp-fill').style.width = (state.userHP / maxHP * 100) + '%';
         document.getElementById('player-mp-text').innerText = `${state.userMana} / ${maxMP}`;
         document.getElementById('player-mp-fill').style.width = (state.userMana / maxMP * 100) + '%';
-
         let statsData = {}; Object.keys(CONFIG.stats).forEach(k => statsData[k] = getStatTotal(k));
         const topStat = Object.entries(statsData).reduce((a, b) => a[1].total > b[1].total ? a : b)[0];
         const titleLvl = statsData[topStat].total >= 15 ? 2 : (statsData[topStat].total >= 5 ? 1 : 0);
         document.getElementById('user-identity').innerText = `${CONFIG.stats[topStat].class} | ${CONFIG.stats[topStat].titles[titleLvl]}`;
         document.getElementById('avatar-icon').innerText = CONFIG.stats[topStat].rune;
         document.getElementById('res-gold').innerText = state.gold; document.getElementById('res-rep').innerText = state.rep; document.getElementById('res-runes').innerText = state.runeFragments || 0;
-        
         document.getElementById('user-level-val').innerText = state.userLevel;
         document.getElementById('user-xp-text').innerText = `${state.userXP} / ${state.userLevel * CONFIG.userXPBase} XP`;
         document.getElementById('user-xp-fill').style.width = (state.userXP / (state.userLevel * CONFIG.userXPBase) * 100) + '%';
-
         const rIdx = Math.min(8, Math.floor((state.userLevel - 1) / 5));
         document.getElementById('bifrost-fill').style.width = (rIdx / 8 * 100) + '%';
         document.getElementById('map-nodes').innerHTML = CONFIG.realms.map((r, i) => `<div class="realm-node ${i === rIdx ? 'active' : ''}" style="left: ${(i/8)*100}%"><div class="node-dot"></div><div class="realm-name">${r.n}</div></div>`).join('');
         document.getElementById('realm-desc').innerText = `${CONFIG.realms[rIdx].n}: ${CONFIG.realms[rIdx].d}`;
-
         const skills = CONFIG.stats[topStat].skills;
         document.getElementById('skills-container').innerHTML = skills.map((s, i) => `<button class="skill-btn" onclick="castSkill(${i}, '${topStat}')" ${state.userLevel < s.l || state.userMana < s.m ? 'disabled' : ''}><span class="skill-cost">${s.m} MP</span><span class="skill-name">${s.n}</span><small class="skill-desc">${s.desc}</small></button>`).join('');
-
         if (state.bossDefeated) { document.getElementById('boss-active-ui').style.display = 'none'; document.getElementById('boss-victory-ui').style.display = 'block'; }
-        else { document.getElementById('boss-active-ui').style.display = 'block'; document.getElementById('boss-victory-ui').style.display = 'none'; document.getElementById('boss-hp').style.width = (state.bossHP / state.bossMaxHP * 100) + '%'; document.getElementById('boss-percent').innerText = Math.round(state.bossHP/state.bossMaxHP*100) + '%'; document.getElementById('boss-name-label').innerText = `WORLD BOSS: ${boss.name.toUpperCase()}`; document.getElementById('boss-text').innerText = `${boss.title} | HP: ${state.bossHP}/${state.bossMaxHP}`; }
-
+        else {
+            document.getElementById('boss-active-ui').style.display = 'block'; document.getElementById('boss-victory-ui').style.display = 'none';
+            document.getElementById('boss-hp').style.width = (state.bossHP / state.bossMaxHP * 100) + '%'; document.getElementById('boss-percent').innerText = Math.round(state.bossHP/state.bossMaxHP*100) + '%'; document.getElementById('boss-name-label').innerText = `WORLD BOSS: ${boss.name.toUpperCase()}`; document.getElementById('boss-text').innerText = `${boss.title} | HP: ${state.bossHP}/${state.bossMaxHP}`;
+        }
         const blessed = getDailyBlessedStat();
         document.getElementById('stat-grid').innerHTML = Object.entries(statsData).map(([k, d]) => `<div class="mini-stat-card ${k === blessed ? 'blessed-stat' : ''}" style="border-bottom: 2px solid ${CONFIG.stats[k].clr};">${k === blessed ? '<div class="blessed-tag">BLESSED</div>' : ''}<div style="font-size:0.6rem; color:var(--iron);">${CONFIG.stats[k].label}</div><div style="font-family:'MedievalSharp'; color:${CONFIG.stats[k].clr}; font-size:1.1rem;">${k} ${d.total}</div><div class="bar-container" style="height:4px; margin-top:5px;"><div class="fill-inner" style="width:${(state.stats[k].xp / (d.base * CONFIG.xpBase)) * 100}%; background:${CONFIG.stats[k].clr};"></div></div></div>`).join('');
+        
+        document.getElementById('fates-list').innerHTML = state.destinies.map(d => {
+            const range = Math.abs(d.targetValue - d.startValue); const currentDone = Math.abs(d.currentValue - d.startValue); const progress = Math.min(100, (currentDone / range) * 100);
+            return `<div class="stat-card fates-card ${d.completed ? 'completed' : ''}"><div style="display:flex; justify-content:space-between; align-items:flex-start;"><div><b style="color:var(--gold); font-family:'MedievalSharp';">${d.name}</b><div style="font-size:0.6rem; color:var(--iron); text-transform:uppercase;">Stat: ${d.stat} | Target: ${d.targetValue}${d.metric}</div></div>${!d.completed ? `<button class="btn-viking" style="font-size:0.5rem; padding:4px 8px;" onclick="recordDeed(${d.id})">Record Deed</button>` : '<span style="color:var(--hp-green); font-size:0.6rem;">FULFILLED</span>'}</div><div class="bar-container" style="height:12px; margin-top:10px; border-color:var(--wood-trim);"><div class="fill-inner" style="width:${progress}%; background:linear-gradient(90deg, #640, var(--gold));"></div></div><div class="fates-history">${d.history.slice(0,3).map(h => `<div class="fates-row"><span>${h.date}</span><span>${h.value}${d.metric}</span></div>`).join('')}</div>${d.completed ? '' : `<button class="btn-viking" style="width:100%; margin-top:10px; background:#400; border:0; font-size:0.5rem;" onclick="buryFate(${d.id})">Bury Fate</button>`}</div>`;
+        }).join('');
 
         document.getElementById('quest-list').innerHTML = state.quests.map(q => { const strk = getStreak(q.id); const ev = strk >= 30; return `<div class="quest-item ${state.history[today]?.[q.id] ? 'completed' : ''} ${ev ? 'evolve-ready' : ''}">${ev ? '<div class="blessed-tag" style="top:10px; right:70px;">EVOLVE</div>' : ''}<div style="flex-grow:1"><b>${q.name}</b><br><small>Streak: ${strk}🔥 ${q.stat === blessed ? '✨' : ''}</small></div><div class="rune-trigger ${state.history[today]?.[q.id] ? 'active' : ''}" onclick="toggleQuest(${q.id}, '${q.stat}')">${CONFIG.stats[q.stat].rune}</div></div>`; }).join('');
         document.getElementById('ritual-list').innerHTML = state.rituals.map(r => `<div class="quest-item ${state.history[today]?.[r.id] ? 'completed' : ''}"><div style="flex-grow:1"><b>${r.name}</b><br><small>Completions: ${r.completions} ${r.stat === blessed ? '✨' : ''}</small></div><div class="rune-trigger ${state.history[today]?.[r.id] ? 'active' : ''}" onclick="toggleRitual(${r.id}, '${r.stat}')">${CONFIG.stats[r.stat].rune}</div></div>`).join('');
         document.getElementById('active-kill-list').innerHTML = state.killList.map(k => `<div class="quest-item"><div><b>${k.name}</b><br><small>${k.stat}</small></div><button class="rune-trigger" onclick="slayTask(${k.id})">⚔️</button></div>`).join('');
-        document.getElementById('active-miniboss-list').innerHTML = state.miniBosses.filter(b=>!b.defeated).map(mb => `<div class="stat-card" style="border-color:var(--blood-red);"><span style="font-family:'MedievalSharp'; color:var(--gold);">${mb.rewards.label}: ${mb.name}</span><div class="bar-container" style="height:6px; margin:5px 0;"><div class="fill-inner" style="width:${mb.currentHP/mb.maxHP*100}%; background:var(--blood-red);"></div></div><small style="font-size:0.6rem;">Tasks: ${mb.currentHP}/${mb.maxHP}</small></div>`).join('');
-        const mbSelect = document.getElementById('k-miniboss'); mbSelect.innerHTML = `<option value="">Lone Wolf Bounty</option>` + state.miniBosses.filter(b=>!b.defeated).map(mb => `<option value="${mb.id}">${mb.name}</option>`).join('');
-        document.getElementById('store-artifacts').innerHTML = ARTIFACT_POOL.map(item => `<div class="stat-card"><div style="display:flex; justify-content:space-between;"><b>${item.name}</b><span>+${item.bonus} ${item.stat}</span></div><button class="btn-viking" style="margin-top:10px; width:100%;" onclick="buyArtifact(${item.id})" ${state[item.type] < item.cost ? 'disabled' : ''}>BUY: ${item.cost} ${item.type.toUpperCase()}</button></div>`).join('');
+        
+        document.getElementById('store-artifacts').innerHTML = ARTIFACT_POOL.map(item => `<div class="stat-card"><div style="display:flex; justify-content:space-between;"><b>${item.name}</b><span>+${item.bonus} ${item.stat}</span></div><button class="btn-viking" style="margin-top:10px; width:100%;" onclick="buyArtifact(${item.id})" ${state[item.type] < item.cost ? 'disabled' : ''}>BUY: ${item.cost} ${item.type === 'rep' ? 'RENOWN' : 'GOLD'}</button></div>`).join('');
+        
+        // Render Apothecary
+        document.getElementById('store-potions').innerHTML = POTION_POOL.map(pot => `
+            <div class="stat-card" style="padding:10px;">
+                <div style="font-family:'MedievalSharp'; color:var(--gold); font-size:0.75rem; margin-bottom:5px;">${pot.name}</div>
+                <div style="font-size:0.6rem; color:#aaa;">${pot.desc}</div>
+                <button class="btn-viking" style="width:100%; margin-top:8px; font-size:0.6rem; padding:6px;" onclick="buyPotion('${pot.id}')" ${state.gold < pot.cost ? 'disabled' : ''}>${pot.cost} ᚠ</button>
+            </div>
+        `).join('');
+
         document.getElementById('inv-artifacts').innerHTML = state.inventory.map(item => `<div class="quest-item" style="border-left-color:var(--gold);"><span>${item.name} (+${item.bonus} ${item.stat})</span><button class="btn-viking" style="font-size:0.6rem; background:${state.equippedItemIds.includes(item.instanceId) ? 'var(--victory-green)' : '#333'};" onclick="toggleEquip(${item.instanceId})">${state.equippedItemIds.includes(item.instanceId) ? 'EQUIPPED' : 'EQUIP'}</button></div>`).join('');
         document.getElementById('inv-spoils').innerHTML = state.ownedRewards.map(r => `<div class="quest-item" style="border-left-color:var(--hp-green);"><span>${r.name}</span><button class="btn-viking" style="font-size:0.6rem;" onclick="consumeReward(${r.instanceId})">CONSUME</button></div>`).join('');
         document.getElementById('saga-log').innerHTML = state.logs.map(l => `<div class="log-entry">[${new Date(l.time).toLocaleTimeString([],{hour:'2-digit', minute:'2-digit'})}] ${l.text}</div>`).join('');
-        const q = STOIC_QUOTES[new Date().getDate() % STOIC_QUOTES.length]; document.getElementById('stoic-quote').innerText = `"${q.q}"`; document.getElementById('stoic-author').innerText = `— ${q.a}`; document.getElementById('blessing-indicator').innerText = `THE GODS BLESS: ${CONFIG.stats[blessed].label} (+25% XP TODAY)`;
+        const q = STOIC_QUOTES[new Date().getDate() % STOIC_QUOTES.length]; document.getElementById('stoic-quote').innerText = `"${q.q}"`; document.getElementById('stoic-author').innerText = `— ${q.a}`; document.getElementById('blessing-indicator').innerText = `THE GODS BLESS: ${CONFIG.stats[getDailyBlessedStat()].label} (+25% XP TODAY)`;
         
         setTimeout(() => updateNavShadows(document.getElementById('nav-tabs')), 100);
     }
